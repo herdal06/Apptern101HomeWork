@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Apptern101HomeWork</string>
+    <string name="title_news">News</string>
+    <string name="title_favorites">Favorites</string>
 </resources>
