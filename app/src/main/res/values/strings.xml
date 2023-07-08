@@ -2,4 +2,11 @@
     <string name="app_name">Apptern101HomeWork</string>
     <string name="title_news">News</string>
     <string name="title_favorites">Favorites</string>
+    <string name="search_for_news">Search for news</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_search_screen">Appcent News App</string>
+    <string name="title_favorites_screen">Favorites</string>
+    <string name="title_news_source_screen">News Source</string>
+    <string name="article_added_to_db">Article added to db!</string>
+    <string name="error">Error:</string>
 </resources>

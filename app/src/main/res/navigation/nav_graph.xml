@@ -8,10 +8,40 @@
         android:id="@+id/searchNewsFragment"
         android:name="com.example.apptern101homework.ui.fragment.news.search.SearchNewsFragment"
         android:label="News"
-        tools:layout="@layout/fragment_search_news" />
+        tools:layout="@layout/fragment_search_news" >
+        <action
+            android:id="@+id/action_searchNewsFragment_to_articleDetailFragment"
+            app:destination="@id/articleDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteNewsFragment"
         android:name="com.example.apptern101homework.ui.fragment.news.favorites.FavoriteNewsFragment"
         android:label="Favorites"
-        tools:layout="@layout/fragment_favorite_news" />
+        tools:layout="@layout/fragment_favorite_news" >
+        <action
+            android:id="@+id/action_favoriteNewsFragment_to_articleDetailFragment"
+            app:destination="@id/articleDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleDetailFragment"
+        android:name="com.example.apptern101homework.ui.fragment.news.detail.ArticleDetailFragment"
+        android:label="fragment_article_detail"
+        tools:layout="@layout/fragment_article_detail" >
+        <action
+            android:id="@+id/action_articleDetailFragment_to_newsSourceFragment"
+            app:destination="@id/newsSourceFragment" />
+        <argument
+            android:name="article"
+            app:argType="com.example.apptern101homework.domain.uimodel.Article" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsSourceFragment"
+        android:name="com.example.apptern101homework.ui.fragment.news.source.NewsSourceFragment"
+        android:label="News Source"
+        tools:layout="@layout/fragment_news_source" >
+        <argument
+            android:name="newsUrl"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>
