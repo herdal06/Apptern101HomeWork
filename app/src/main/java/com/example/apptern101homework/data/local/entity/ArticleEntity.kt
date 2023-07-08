@@ -1,18 +1,23 @@
-package com.example.apptern101homework.data.remote.dto
+package com.example.apptern101homework.data.local.entity
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.apptern101homework.domain.uimodel.Article
 
-data class ArticleDto(
+@Entity(tableName = "articles")
+data class ArticleEntity(
+    @PrimaryKey
+    val id: Int = 0,
+    val urlToImage: String?,
+    val title: String?,
     val author: String?,
     val content: String?,
     val description: String?,
     val publishedAt: String?,
-    val title: String?,
     val url: String?,
-    val urlToImage: String?
 )
 
-fun ArticleDto.toDomain(): Article =
+fun ArticleEntity.toDomain(): Article =
     Article(
         author = author,
         url = url,
@@ -20,5 +25,5 @@ fun ArticleDto.toDomain(): Article =
         content = content,
         urlToImage = urlToImage,
         description = description,
-        publishedAt = publishedAt
+        publishedAt = publishedAt,
     )
