@@ -21,19 +21,19 @@
         android:id="@+id/btn_go_to_source"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_article_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_article_title"
+        tools:text="Button" />
 
     <TextView
         android:id="@+id/tv_article_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_article" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_article"
+        tools:text="TextView" />
 
     <ImageButton
         android:id="@+id/ibFavorite"
@@ -44,4 +44,14 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_go_to_source" />
+
+    <ImageButton
+        android:id="@+id/ibShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_share"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ibFavorite" />
 </androidx.constraintlayout.widget.ConstraintLayout>

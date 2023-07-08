@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.apptern101homework.R
 import com.example.apptern101homework.base.BaseFragment
 import com.example.apptern101homework.base.listener.RvItemClickListener
 import com.example.apptern101homework.databinding.FragmentSearchNewsBinding
@@ -75,17 +76,19 @@ class SearchNewsFragment : BaseFragment<FragmentSearchNewsBinding>() {
         viewModel.searchArticles(searchQuery)
     }
 
-    private val recyclerViewItemClickListener = object :
-        RvItemClickListener<Article?> {
+    private val recyclerViewItemClickListener = object : RvItemClickListener<Article?> {
         override fun onClick(item: Article?) {
             item?.let { navigateToArticleDetailFragment(it) }
         }
     }
 
     private fun navigateToArticleDetailFragment(article: Article) {
+        val bundle = Bundle().apply {
+            putParcelable("article", article)
+        }
         findNavController().navigate(
-            SearchNewsFragmentDirections
-                .actionSearchNewsFragmentToArticleDetailFragment(article)
+            R.id.action_searchNewsFragment_to_articleDetailFragment,
+            bundle
         )
     }
 }

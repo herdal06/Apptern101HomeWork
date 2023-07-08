@@ -6,7 +6,7 @@ import com.example.apptern101homework.domain.uimodel.Article
 
 @Entity(tableName = "articles")
 data class ArticleEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val urlToImage: String?,
     val title: String?,
