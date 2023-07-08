@@ -40,7 +40,7 @@ android {
         viewBinding true
     }
 }
-
+def paging_version = "3.1.1"
 dependencies {
     implementation Libs.AndroidX.core
     implementation Libs.AndroidX.appCompat
@@ -50,6 +50,7 @@ dependencies {
     // Google
     implementation Libs.Google.material
     implementation Libs.Google.gson
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 
     // Test
     testImplementation Libs.Test.junit
@@ -90,4 +91,9 @@ dependencies {
     // Coroutines
     implementation Libs.Kotlin.coroutines
     implementation Libs.Kotlin.coroutinesCore
+
+
+
+    implementation "androidx.paging:paging-runtime:$paging_version"
+
 }
