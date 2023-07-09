@@ -9,4 +9,6 @@
     <string name="title_news_source_screen">News Source</string>
     <string name="article_added_to_db">Article added to db!</string>
     <string name="error">Error:</string>
+    <string name="news_source">News Source</string>
+    <string name="no_author">Author not specified</string>
 </resources>
