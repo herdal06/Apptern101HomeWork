@@ -13,9 +13,9 @@ class ArticleDetailVM @Inject constructor(
     private val articleRepository: ArticleRepository
 ) : ViewModel() {
 
-    fun addToFavorites(article: Article) = viewModelScope.launch {
+    fun addToFavorites(article: Article?) = viewModelScope.launch {
         try {
-            articleRepository.insert(article)
+            article?.let { articleRepository.insert(it) }
         } catch (e: Exception) {
             e.printStackTrace()
         }
