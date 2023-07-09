@@ -33,19 +33,12 @@ class MainActivity : AppCompatActivity(), FavoriteButtonClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         setupNavigation()
-
-        binding.ibBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
-
-        binding.ibFavorite.setOnClickListener {
-            currentArticle?.let { article ->
-                favoriteButtonClickListener?.onFavoriteButtonClicked(article)
-            }
-        }
+        setupClickListeners()
     }
 
     override fun onResume() {
@@ -53,9 +46,15 @@ class MainActivity : AppCompatActivity(), FavoriteButtonClickListener {
         setFavoriteButtonClickListener()
     }
 
+    override fun onFavoriteButtonClicked(article: Article?) {
+        article?.let { viewModel.addToFavorites(it) }
+        Toast.makeText(this, "Article added to favorites!", Toast.LENGTH_SHORT).show()
+    }
+
     private fun setFavoriteButtonClickListener() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val currentFragment = navController.currentDestination?.id
+
         if (currentFragment == R.id.articleDetailFragment) {
             val fragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)?.childFragmentManager?.fragments?.firstOrNull()
             if (fragment is ArticleDetailFragment) {
@@ -66,11 +65,6 @@ class MainActivity : AppCompatActivity(), FavoriteButtonClickListener {
             favoriteButtonClickListener = null
             currentArticle = null
         }
-    }
-
-    override fun onFavoriteButtonClicked(article: Article?) {
-        article?.let { viewModel.addToFavorites(it) }
-        Toast.makeText(this, "Makale favorilere eklendi", Toast.LENGTH_SHORT).show()
     }
 
     private fun setupNavigation() {
@@ -96,19 +90,33 @@ class MainActivity : AppCompatActivity(), FavoriteButtonClickListener {
         }
     }
 
-    private fun updateToolbar(destinationId: Int) = binding.apply {
-        supportActionBar?.setDisplayHomeAsUpEnabled(destinationId != R.id.searchNewsFragment)
-        tvScreenTitle.text = when (destinationId) {
-            R.id.searchNewsFragment -> getString(R.string.title_search_screen)
-            R.id.favoriteNewsFragment -> getString(R.string.title_favorites_screen)
-            R.id.articleDetailFragment -> ""
-            R.id.newsSourceFragment -> getString(R.string.title_news_source_screen)
-            else -> ""
+    private fun setupClickListeners() {
+        binding.ibBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
 
-        ibBack.setVisibility(destinationId == R.id.articleDetailFragment || destinationId == R.id.newsSourceFragment)
-        ibShare.setVisibility(destinationId == R.id.articleDetailFragment)
-        ibFavorite.setVisibility(destinationId == R.id.articleDetailFragment)
+        binding.ibFavorite.setOnClickListener {
+            currentArticle?.let { article ->
+                favoriteButtonClickListener?.onFavoriteButtonClicked(article)
+            }
+        }
+    }
+
+    private fun updateToolbar(destinationId: Int) {
+        binding.apply {
+            supportActionBar?.setDisplayHomeAsUpEnabled(destinationId != R.id.searchNewsFragment)
+            tvScreenTitle.text = when (destinationId) {
+                R.id.searchNewsFragment -> getString(R.string.title_search_screen)
+                R.id.favoriteNewsFragment -> getString(R.string.title_favorites_screen)
+                R.id.articleDetailFragment -> ""
+                R.id.newsSourceFragment -> getString(R.string.title_news_source_screen)
+                else -> ""
+            }
+
+            ibBack.setVisibility(destinationId == R.id.articleDetailFragment || destinationId == R.id.newsSourceFragment)
+            ibShare.setVisibility(destinationId == R.id.articleDetailFragment)
+            ibFavorite.setVisibility(destinationId == R.id.articleDetailFragment)
+        }
     }
 
     override fun onBackPressed() {
