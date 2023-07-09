@@ -5,11 +5,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.apptern101homework.R
 import com.example.apptern101homework.base.BaseFragment
@@ -17,6 +17,8 @@ import com.example.apptern101homework.base.listener.RvItemClickListener
 import com.example.apptern101homework.databinding.FragmentSearchNewsBinding
 import com.example.apptern101homework.domain.uimodel.Article
 import com.example.apptern101homework.ui.fragment.news.search.adapter.SearchedArticlesAdapter
+import com.example.apptern101homework.utils.ext.gone
+import com.example.apptern101homework.utils.ext.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -53,7 +55,11 @@ class SearchNewsFragment : BaseFragment<FragmentSearchNewsBinding>() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val searchQuery = s.toString()
-                observeSearchedNews(searchQuery)
+                if (searchQuery.isNotEmpty()) {
+                    observeUiState(searchQuery)
+                } else {
+                    searchArticlesAdapter.submitData(lifecycle, PagingData.empty())
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -61,14 +67,26 @@ class SearchNewsFragment : BaseFragment<FragmentSearchNewsBinding>() {
         })
     }
 
-    private fun observeSearchedNews(searchQuery: String) {
+    private fun observeUiState(searchQuery: String) {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.searchedArticles.observe(viewLifecycleOwner) { pagingData ->
-                    pagingData?.let {
-                        launch {
-                            searchArticlesAdapter.submitData(pagingData)
-                        }
+            viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+                uiState.loading.let { isLoading ->
+                    if (isLoading) {
+                        binding?.pbSearchedNews?.show()
+                        binding?.rvSearchedNews?.gone()
+                    } else {
+                        binding?.pbSearchedNews?.gone()
+                        binding?.rvSearchedNews?.show()
+                    }
+                }
+
+                uiState.error?.let { errorMessage ->
+                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                }
+
+                uiState.searchedNews?.let { pagingData ->
+                    launch {
+                        searchArticlesAdapter.submitData(pagingData)
                     }
                 }
             }

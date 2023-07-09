@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.apptern101homework.domain.repository.ArticleRepository
-import com.example.apptern101homework.domain.uimodel.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,14 +15,20 @@ class SearchNewsVM @Inject constructor(
     private val articleRepository: ArticleRepository
 ) : ViewModel() {
 
-    private var _searchedArticles = MutableLiveData<PagingData<Article>?>()
-    val searchedArticles: LiveData<PagingData<Article>?> get() = _searchedArticles
+    private var _uiState = MutableLiveData<SearchNewsUiState>()
+    val uiState: LiveData<SearchNewsUiState> get() = _uiState
 
     fun searchArticles(searchQuery: String) = viewModelScope.launch {
-        articleRepository.searchNews(searchQuery)
-            .cachedIn(viewModelScope)
-            .collect {
-                _searchedArticles.postValue(it)
-            }
+        _uiState.value = SearchNewsUiState(loading = true)
+
+        try {
+            articleRepository.searchNews(searchQuery)
+                .cachedIn(viewModelScope)
+                .collect { articles ->
+                    _uiState.postValue(SearchNewsUiState(searchedNews = articles))
+                }
+        } catch (e: Exception) {
+            _uiState.postValue(SearchNewsUiState(error = e.message))
+        }
     }
 }
