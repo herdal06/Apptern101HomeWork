@@ -19,6 +19,7 @@ data class ArticleEntity(
 
 fun ArticleEntity.toDomain(): Article =
     Article(
+        id = id,
         author = author,
         url = url,
         title = title,
