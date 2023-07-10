@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.apptern101homework.domain.repository.ArticleRepository
 import com.example.apptern101homework.domain.uimodel.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,7 +14,7 @@ class ArticleDetailVM @Inject constructor(
     private val articleRepository: ArticleRepository
 ) : ViewModel() {
 
-    fun addToFavorites(article: Article?) = viewModelScope.launch {
+    fun addToFavorites(article: Article?) = viewModelScope.launch(Dispatchers.IO) {
         try {
             article?.let { articleRepository.insert(it) }
         } catch (e: Exception) {
