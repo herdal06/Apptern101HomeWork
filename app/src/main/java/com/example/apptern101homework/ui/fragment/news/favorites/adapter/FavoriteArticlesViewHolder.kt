@@ -18,5 +18,14 @@ class FavoriteArticlesViewHolder(
         root.setOnClickListener {
             articleClickListener.onClick(article)
         }
+
+        root.setOnLongClickListener {
+            articleClickListener.onLongClick(article)
+            true
+        }
+    }
+
+    fun bindExpanded(article: Article) {
+        binding.tvContent.maxLines = if (article.isExpanded) 10 else 2
     }
 }

@@ -98,6 +98,10 @@ class SearchNewsFragment : BaseFragment<FragmentSearchNewsBinding>() {
         override fun onClick(item: Article?) {
             item?.let { navigateToArticleDetailFragment(it) }
         }
+
+        override fun onLongClick(item: Article?) {
+            // expand tvContent on long click item
+        }
     }
 
     private fun navigateToArticleDetailFragment(article: Article) {
