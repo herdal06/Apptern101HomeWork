@@ -12,6 +12,7 @@ interface ArticleService {
         @Query("q") searchQuery: String,
         @Query("apiKey") apiKey: String = BuildConfig.API_KEY,
         @Query("page") page: Int,
-        @Query("pageSize") pageSize: Int = 20
+        @Query("pageSize") pageSize: Int = 20,
+        @Query("language") language: String = "tr"
     ): ArticleResponse?
 }

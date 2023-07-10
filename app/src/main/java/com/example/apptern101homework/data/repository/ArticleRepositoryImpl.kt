@@ -29,7 +29,7 @@ class ArticleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun delete(article: Article) {
-        local.insert(article.toEntity())
+        local.delete(article.toEntity())
     }
 
     override fun getAll(): Flow<List<Article>> {

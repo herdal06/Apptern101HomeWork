@@ -11,4 +11,7 @@
     <string name="error">Error:</string>
     <string name="news_source">News Source</string>
     <string name="no_author">Author not specified</string>
+    <string name="article_deleted">Article deleted</string>
+    <string name="undo">Undo</string>
+    <string name="share_article">Share Article</string>
 </resources>
